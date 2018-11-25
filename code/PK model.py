@@ -81,6 +81,31 @@ def PO_multidose(ka,k,t,tau):
     #result_list = list(map(lambda x : x.predict(),model))
     return out
 
+def PO_multidose(ka,k,t,tau):
+    def single_predict(t0):
+        model=[]
+        for i in range(int(np.floor(t0/tau)+1)):
+            if i ==0:
+                model.append(PO_onecom_class(ka,k,t0,0))
+            else:
+                model.append(PO_onecom_class(ka,k,t0,tau*i))
+                
+        result_list = list(map(lambda x : x.predict(),model))
+        return np.sum(result_list)
+        
+    out=list(map(single_predict,t))
+    #result_list = list(map(lambda x : x.predict(),model))
+    return out
+
+def PO_onedose(ka,k,t):
+    def single_predict(t0):
+        result=PO_onecom_class(ka,k,t0,0)
+        return result.predict()
+        
+    out=list(map(single_predict,t))
+    #result_list = list(map(lambda x : x.predict(),model))
+    return out
+
 #optimize.minimize(fun,([1,2,1]))
 """def fun(A):
     a=A[0]

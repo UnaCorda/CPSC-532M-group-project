@@ -5,7 +5,7 @@ Created on Thu Nov 29 17:27:20 2018
 @author: hasee
 """
 
-import PK_model.py
+import PK_model
 import numpy as np
 import multiprocessing
 from multiprocessing import Pool
@@ -26,11 +26,13 @@ L=np.matrix.flatten(np.repeat([k],k.size,axis=0))
 combined_array=np.array([K]+[L])
 combined_array_T=combined_array.T
 
-out=np.array(list(map(lambda x: PO_onedose(x[0],x[1],t),combined_array_T)))
+#out=np.array(list(map(lambda x: PO_onedose(x[0],x[1],t),combined_array_T)))
 #Ka serials
 
 
 #for PO multidose
+def fun(x):
+    return PO_multidose(x[0],x[1],t,x[2])
 
 tau=np.arange(1,24,0.5)
 
@@ -52,8 +54,14 @@ N=np.matrix.flatten(np.repeat([tau],combined_array.shape[1],axis=-1))
 A=np.repeat(combined_array,tau.size,axis=-1)
 
 multi_combanation=np.append(A,[N],axis=0)
-multi_combanation_T=multi_combanation.T
+multi_combanation_T=multi_combanation.T[1:10]
 
-p=Pool(8)
-out=np.array(list(p.map(lambda x: PO_multidose(x[0],x[1],t,x[2]),multi_combanation_T)))
+p=multiprocessing.Pool(8)
+#out=np.array(list(p.map(lambda x: PO_multidose(x[0],x[1],t,x[2]),multi_combanation_T)))
+out=np.array(list(p.map(fun,multi_combanation_T)))
+
+
+
+
+numpy.savetxt("foo.csv", out, delimiter=",")
 

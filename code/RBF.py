@@ -13,3 +13,12 @@ gp = GaussianProcessRegressor(kernel=kernel,
 kernel = 1.0 * RBF()
 gp = GaussianProcessRegressor(kernel=kernel,
                               alpha=0.0).fit(X, y)
+
+
+kernel = 1.0 * RBF(length_scale=48.0, length_scale_bounds=(1e-2, 1e3))
+
+gp = GaussianProcessRegressor(kernel=kernel)
+
+gp.fit(t_indice_processed,X1[451,t_indice])
+
+Y=gp.predict(tt_processed,X1[451])

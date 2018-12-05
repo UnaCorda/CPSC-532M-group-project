@@ -35,3 +35,6 @@ t_sparse_processed = t_sparse[:,np.newaxis]
 gp = GaussianProcessRegressor(kernel=kernel)
 gp.fit(t_sparse_processed,X1[451,t_sparse_processed*10])
 Y=gp.predict(tt_processed)
+
+plt.plot(tt,Y);plt.plot(t_sparse,X1[451,t_sparse*10]);plt.plot(tt,X1[451])
+plt.plot(tt,Y);plt.scatter(t_sparse,X1[451,t_sparse*10]);plt.plot(tt,X1[451])

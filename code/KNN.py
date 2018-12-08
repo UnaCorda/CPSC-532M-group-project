@@ -15,6 +15,7 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy.linalg import norm
+import sklearn.cluster
 
 #load DATA
 x=pandas.read_csv("E:\hasee\OneDrive - University of Kentucky\study\courses\Final Paper\CPSC-532M-project\data\Po_multidose.csv")

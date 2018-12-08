@@ -28,13 +28,15 @@ def sparsedata(X,y):
 
 
 
-x=pandas.read_csv("E:\hasee\OneDrive - University of Kentucky\study\courses\Final Paper\CPSC-532M-project\data\Po_multidose.csv")
+x=pandas.read_csv("..\data\Po_multidose.csv")
 X = np.array(x)
 po_multi_dose = X[9200]
 
-k = RBF(length_scale= 1, length_scale_bounds=(1e-4, 1e+1))
+k = RBF(length_scale= 1, length_scale_bounds=(1e-1, 1e+2))
 #k = Matern(length_scale= 1, length_scale_bounds=(1e-2, 1e+3), nu=5)
 gp = GaussianProcessRegressor(kernel=k ,n_restarts_optimizer=12)
+
+
 tt = np.arange(0,48,0.1)
 
 tt_processed = tt[:,np.newaxis]
@@ -43,6 +45,8 @@ t_sparse = np.arange(0,48,1)
 t_sparse_processed = t_sparse[:,np.newaxis]
 t_indice=t_sparse*10
 
+gp.fit(t_sparse_processed,po_multi_dose[t_indice])
+Y=gp.predict(tt_processed)
 
-plt.scatter(t_sparse,X[450,t_indice]);plt.scatter(t_sparse,X[451,t_indice]);plt.scatter(t_sparse,X[452,t_indice]);plt.scatter(tt,X[2253]);
-    
+plt.scatter(tt_processed,Y)
+

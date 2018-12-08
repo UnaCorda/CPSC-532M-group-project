@@ -12,13 +12,13 @@ import numpy as np
 kernel = 1.0 * RBF(length_scale=100.0, length_scale_bounds=(1e-2, 1e3)) \
     + WhiteKernel(noise_level=1, noise_level_bounds=(1e-10, 1e+1))
 gp = GaussianProcessRegressor(kernel=kernel,
-                              alpha=0.0).fit(X, y)
+                              alpha=0.0)
 
 kernel = 1.0 * RBF()
 gp = GaussianProcessRegressor(kernel=kernel,
                               alpha=0.0).fit(X, y)
 
-kernel=4.4**2 * RBF(length_scale=41.8)+ 3.27**2 * RBF(length_scale=180)]
+kernel=4.4**2 * RBF(length_scale=41.8)+ 3.27**2 * RBF(length_scale=180)
 
 
 kernel = 1.0 * RBF(length_scale=48, length_scale_bounds=(1e-1, 1e3))
@@ -26,6 +26,7 @@ kernel = 1.0 * RBF(length_scale=48, length_scale_bounds=(1e-1, 1e3))
 #######################################
 
 #Generating the sparse point
+tt = np.arange(0,48,0.1)
 
 tt_processed = tt[:,np.newaxis]
 
@@ -38,3 +39,5 @@ Y=gp.predict(tt_processed)
 
 plt.plot(tt,Y);plt.plot(t_sparse,X1[451,t_sparse*10]);plt.plot(tt,X1[451])
 plt.plot(tt,Y);plt.scatter(t_sparse,X1[451,t_sparse*10]);plt.plot(tt,X1[451])
+
+y = np.random.normal(size=8)/10+X1[451,t_sparse*10]

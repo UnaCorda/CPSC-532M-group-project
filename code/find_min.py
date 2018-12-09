@@ -14,37 +14,43 @@ import sklearn.cluster
 def objfun_PK(x):
     return PO_multidose(0.3,0.5,[x],10)[0]
 
-def objfun_RBF(x):
-    return  gp.predict(x[:,np.newaxis])[0]
-
-test_point = np.arange(1,48,0.3)
-
-x=pandas.read_csv("..\data\Po_multidose.csv")
-X = np.array(x)
-po_multi_dose = X[9200]
+def objfun_RBF(x,model):
+    return  model.predict(x[:,np.newaxis])[0]
 
 k = RBF(length_scale= 1, length_scale_bounds=(1e-1, 1e+2))
-#k = Matern(length_scale= 1, length_scale_bounds=(1e-2, 1e+3), nu=5)
-gp = GaussianProcessRegressor(kernel=k ,n_restarts_optimizer=12)
+#Input points are nX2 long matrix
+def return_intervals(Input_points,kernal=k,seeds_int=0.3,eps=0.001,min_samples=20,objfun=objfun_RBF,):
+    cluster_model = sklearn.cluster.DBSCAN(eps=0.001,min_samples=10)
+    test_point = np.arange(1,48,seeds_int)
+    gp = GaussianProcessRegressor(kernel=kernal ,n_restarts_optimizer=12)
+    t_input=Input_points[:,0][:,np.newaxis]
+    y_input=Input_points[:,1]
+    gp.fit(t_input,y_input)
+    def fun(x):
+        return objfun(x,model=gp)
 
+    min_points=np.array(list(map(lambda c: optimize.minimize(fun,c,method='BFGS').x,test_point)))
+    
+    cluster_model = sklearn.cluster.DBSCAN(eps=0.001,min_samples=10)
+    cluster_model.fit(min_points)
+    
+    matrix = np.vstack((cluster_model.labels_,min_points[:,0])).T
+    #The Label-min_points without the outlier
+    matrix_clean=matrix[matrix[:,0]!=-1]
+    group = np.unique(matrix_clean[:,0])
+    #Calculate the mean of the minpoints
+    mean_minpoints=np.array(list(map(lambda x : matrix_clean[matrix_clean[:,0]==x][:,1].mean(),group)))
+    mean_minpoints_include_zero = np.append([0],mean_minpoints)
+    mean_minpoints.sort()
+    plt.plot(Input_points[:,0],gp.predict(Input_points[:,0][:,np.newaxis]))
+    plt.scatter(mean_minpoints_include_zero,gp.predict(mean_minpoints_include_zero[:,np.newaxis]),c='red')
+    
+    return mean_minpoints_include_zero
 
-tt = np.arange(0,48,0.1)
+Input=np.vstack((t_sparse,X[9200,t_indice])).T
 
-tt_processed = tt[:,np.newaxis]
+#The function used for fitting the multiple dose
+def split_fit(Input_points,PK_model=PK_model.PO_onedose):
+    return NotImplementedError
+    
 
-t_sparse = np.arange(0,48,1)
-t_sparse_processed = t_sparse[:,np.newaxis]
-t_indice=t_sparse*10
-
-gp.fit(t_sparse_processed,po_multi_dose[t_indice])
-Y=gp.predict(tt_processed)
-
-
-#optimize.minimize(objfun,31,method='BFGS').x
-
-min_points=np.array(list(map(lambda c: optimize.minimize(objfun_RBF,c,method='BFGS').x,test_point)))
-zero_point = min_points
-zero_point.reshape(-1,1)
-plt.scatter(np.arange(zero_point.size),zero_point)
-
-model = sklearn.cluster.DBSCAN(eps=0.001,min_samples=10)

@@ -28,7 +28,7 @@ def sparsedata(X,y):
 
 
 
-x=pandas.read_csv("..\data\Po_multidose.csv")
+#x=pandas.read_csv("..\data\Po_multidose.csv")
 X = np.array(x)
 po_multi_dose = X[9200]
 

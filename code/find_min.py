@@ -17,10 +17,11 @@ def objfun_PK(x):
 def objfun_RBF(x,model):
     return  model.predict(x[:,np.newaxis])[0]
 
-k = RBF(length_scale= 1, length_scale_bounds=(1e-1, 1e+2))
+#k = RBF(length_scale= 1, length_scale_bounds=(1e-1, 1e+2))
 #Input points are nX2 long matrix
-def return_intervals(Input_points,kernal=k,seeds_int=0.3,eps=0.001,min_samples=20,objfun=objfun_RBF,):
+def return_intervals(Input_points,kernal=None,seeds_int=0.3,eps=0.001,min_samples=20,objfun=objfun_RBF,):
     cluster_model = sklearn.cluster.DBSCAN(eps=0.001,min_samples=10)
+    kernal = RBF(length_scale= 1, length_scale_bounds=(1e-1, 1e+2))
     test_point = np.arange(1,48,seeds_int)
     gp = GaussianProcessRegressor(kernel=kernal ,n_restarts_optimizer=12)
     t_input=Input_points[:,0][:,np.newaxis]
@@ -47,10 +48,13 @@ def return_intervals(Input_points,kernal=k,seeds_int=0.3,eps=0.001,min_samples=2
     
     return mean_minpoints_include_zero
 
-Input=np.vstack((t_sparse,X[9200,t_indice])).T
+#Input=np.vstack((t_sparse,X[12400,t_indice])).T
 
 #The function used for fitting the multiple dose
 def split_fit(Input_points,PK_model=PK_model.PO_onedose):
+    mean_minpoints_include_zero = return_intervals(Input_points)
+    
+    
     return NotImplementedError
     
 

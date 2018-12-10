@@ -27,7 +27,7 @@ def sparsedata(X,y):
 #load DATA
 
 
-
+"""
 #x=pandas.read_csv("..\data\Po_multidose.csv")
 X = np.array(x)
 po_multi_dose = X[9200]
@@ -50,3 +50,4 @@ Y=gp.predict(tt_processed)
 
 plt.scatter(tt_processed,Y)
 
+"""

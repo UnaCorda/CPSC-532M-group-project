@@ -26,7 +26,7 @@ class IV_onecom_class:
         self.start_point = start_point
         self.c0 = c0
     def predict(self):
-        if self.t1 < 0:
+        if self.t1.any() < 0:
             return 0
         else:
             return IV_onecom(self.k,self.t1,self.c0)
@@ -39,7 +39,7 @@ class PO_onecom_class:
         self.start_point = start_point
 
     def predict(self):
-        if self.t1 < 0:
+        if self.t1[0] < 0:
             return 0
         else:
             return  PO_onecom(self.ka,self.k,self.t1)        
@@ -100,6 +100,15 @@ def PO_multidose(ka,k,t,tau):
 def PO_onedose(ka,k,t):
     def single_predict(t0):
         result=PO_onecom_class(ka,k,t0,0)
+        return result.predict()
+        
+    out=list(map(single_predict,t))
+    #result_list = list(map(lambda x : x.predict(),model))
+    return out
+
+def PO_onedose_fitting(ka,k,t,t0):
+    def single_predict(tx):
+        result=PO_onecom_class(ka,k,tx,t0)
         return result.predict()
         
     out=list(map(single_predict,t))

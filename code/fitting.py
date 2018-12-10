@@ -24,27 +24,28 @@ def fitting_OLS(Input_points,model_array):
         #est=PK_model.PO_onedose(ka=ka,k=k,t=t)+PK_model.PO_onedose(ka=ka,k=k,t=t+4)
         result_list = list(map(lambda x : x.predict(),model_array))
         #est = np.array(result_list)
-        est=np.sum(result_list,axis=-1)
+        est=np.sum(result_list,axis=0)+PK_model.PO_onedose(ka=ka,k=k,t=t-t_input[0])
         #est=PK_model.PO_onedose(ka=ka,k=k,t=t)
         OLS=np.sqrt(np.linalg.norm(obs-est))
-        print(est)
+        print(OLS)
         return OLS
         
-    return optimize.minimize(object_fun,[0.2,2])
+    return optimize.minimize(object_fun,[0.1,0.2])
     
 
 def fitting_OLS_splitpoints(Input):
 
     min_points = return_intervals(Input)
     model=[]
-    ka_initial = 0.3
-    k_inital = 0.6
+    ka_initial = 0.1
+    k_inital = 1
     parameterlist = []
     for i in range(min_points.size-1):
     #for i in range(2):
         lower_bound = min_points[i]
         upper_bound = min_points[i+1]
-        Partial_points = Input[[Input[:,0]>=lower_bound] and [Input[:,0]<upper_bound]]
+        Partial_indices = np.intersect1d(np.where(Input[:,0]>=lower_bound)[0],np.where(Input[:,0]<=upper_bound)[0])
+        Partial_points = Input[Partial_indices]
         t = Partial_points[:,0]
         model=[]
         for j in range(i):
@@ -53,6 +54,7 @@ def fitting_OLS_splitpoints(Input):
                 model.append(PO_onecom_class(ka=ka_initial,k=k_inital,t=t,start_point=min_points[j]))
             else:
                 model.append(PO_onecom_class(ka=parameterlist[j][0],k=parameterlist[j][1],t=t,start_point=min_points[j]))
+                
         parameter = fitting_OLS(Partial_points,model_array=model).x
         parameterlist.append(parameter)
         

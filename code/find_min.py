@@ -43,8 +43,8 @@ def return_intervals(Input_points,kernal=None,seeds_int=0.3,eps=0.001,min_sample
     mean_minpoints=np.array(list(map(lambda x : matrix_clean[matrix_clean[:,0]==x][:,1].mean(),group)))
     mean_minpoints_include_zero = np.append([0],mean_minpoints)
     mean_minpoints.sort()
-    plt.plot(Input_points[:,0],gp.predict(Input_points[:,0][:,np.newaxis]))
-    plt.scatter(mean_minpoints_include_zero,gp.predict(mean_minpoints_include_zero[:,np.newaxis]),c='red')
+    #plt.plot(Input_points[:,0],gp.predict(Input_points[:,0][:,np.newaxis]))
+    #plt.scatter(mean_minpoints_include_zero,gp.predict(mean_minpoints_include_zero[:,np.newaxis]),c='red')
     
     return mean_minpoints_include_zero
 

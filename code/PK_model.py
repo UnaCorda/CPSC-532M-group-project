@@ -43,7 +43,12 @@ class PO_onecom_class:
             return 0
         else:
             return  PO_onecom(self.ka,self.k,self.t1)        
-        
+
+    def predict(self):
+        if self.t1[0] < 0:
+            return 0
+        else:
+            return  PO_onecom(self.ka,self.k,self.t1)          
 
 
 

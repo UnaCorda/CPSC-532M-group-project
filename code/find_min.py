@@ -19,7 +19,7 @@ def objfun_RBF(x,model):
 
 #k = RBF(length_scale= 1, length_scale_bounds=(1e-1, 1e+2))
 #Input points are nX2 long matrix
-def return_intervals(Input_points,kernal=None,seeds_int=0.3,eps=0.001,min_samples=20,objfun=objfun_RBF,):
+def return_intervals(Input_points,kernal=None,seeds_int=0.1,eps=1,min_samples=20,objfun=objfun_RBF,):
     cluster_model = sklearn.cluster.DBSCAN(eps=0.001,min_samples=10)
     kernal = RBF(length_scale= 1, length_scale_bounds=(1e-1, 1e+2))
     test_point = np.arange(1,48,seeds_int)
@@ -32,7 +32,7 @@ def return_intervals(Input_points,kernal=None,seeds_int=0.3,eps=0.001,min_sample
 
     min_points=np.array(list(map(lambda c: optimize.minimize(fun,c,method='BFGS').x,test_point)))
     
-    cluster_model = sklearn.cluster.DBSCAN(eps=0.001,min_samples=10)
+    cluster_model = sklearn.cluster.DBSCAN(eps=eps,min_samples=min_samples)
     cluster_model.fit(min_points)
     
     matrix = np.vstack((cluster_model.labels_,min_points[:,0])).T
@@ -44,9 +44,10 @@ def return_intervals(Input_points,kernal=None,seeds_int=0.3,eps=0.001,min_sample
     mean_minpoints_include_zero = np.append([0],mean_minpoints)
     mean_minpoints.sort()
     #plt.plot(Input_points[:,0],gp.predict(Input_points[:,0][:,np.newaxis]))
-    #plt.scatter(mean_minpoints_include_zero,gp.predict(mean_minpoints_include_zero[:,np.newaxis]),c='red')
+    #plt.scatter(Input_points[:,0],Input_points[:,1])
+    plt.scatter(mean_minpoints_include_zero,gp.predict(mean_minpoints_include_zero[:,np.newaxis]),c='red')
     
-    return mean_minpoints_include_zero
+    return mean_minpoints_include_zero[mean_minpoints_include_zero>=0]
 
 #Input=np.vstack((t_sparse,X[12400,t_indice])).T
 

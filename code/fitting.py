@@ -21,16 +21,22 @@ def fitting_OLS(Input_points,model_array):
         k = input_array[1]
         t = t_input
         obs = y_input
+        #print(obs.size)
+        max_value = np.ones(obs.size)
+        #max_value[-3:-1] = 200
+        #max_value[0:4] = 100
         #est=PK_model.PO_onedose(ka=ka,k=k,t=t)+PK_model.PO_onedose(ka=ka,k=k,t=t+4)
         result_list = list(map(lambda x : x.predict(),model_array))
         #est = np.array(result_list)
+        #print(np.sum(result_list,axis=0))
         est=np.sum(result_list,axis=0)+PK_model.PO_onedose(ka=ka,k=k,t=t-t_input[0])
+        #print(t_input[0])
         #est=PK_model.PO_onedose(ka=ka,k=k,t=t)
-        OLS=np.sqrt(np.linalg.norm(obs-est))
-        print(OLS)
+        OLS=np.linalg.norm((obs-est)*max_value)
+        #print(OLS)
         return OLS
         
-    return optimize.minimize(object_fun,[0.1,0.2])
+    return optimize.minimize(object_fun,[0.5,1],method="BFGS")
     
 
 def fitting_OLS_splitpoints(Input):
@@ -57,15 +63,18 @@ def fitting_OLS_splitpoints(Input):
                 
         parameter = fitting_OLS(Partial_points,model_array=model).x
         parameterlist.append(parameter)
-        
     return parameterlist
         
 
+
+"""
 Y=X[9200,45:90]
 X_test = np.arange((X[9200,45:90]).size)
 
 Y=Input[4:8,1]
 X_test = Input[4:8,0]
 
-Input_points = np.vstack((X_test,Y)).T
+Input_points = np.vstack((np.arange(X[14000].size)/10,X[14000])).T
 
+X[19100,t_indice])
+    """

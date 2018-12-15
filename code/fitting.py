@@ -25,8 +25,7 @@ def fitting_OLS(Input_points,model_array):
         """Weight Function"""
         max_value = np.ones(obs.size)
         #max_value[-6:-3] = 10
-        #max_value[0:4] = 100
-        
+        #max_value[0:4] = 100       
         #est=PK_model.PO_onedose(ka=ka,k=k,t=t)+PK_model.PO_onedose(ka=ka,k=k,t=t+4)
         result_list = list(map(lambda x : x.predict(),model_array))
         #est = np.array(result_list)

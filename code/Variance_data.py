@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Nov 29 21:08:34 2018
+Created on Sat Dec 15 15:52:54 2018
 
-Multiple dose fitting
-
-@author: hasee
+@author: ych324
 """
+
 import pandas
 import os
 import pickle
@@ -29,4 +28,3 @@ Y=X[sample_indice,t_indice]
 Y_variance = Y*(1+np.random.normal(size=Y.size)/50)
 plt.scatter(t_sparse,Y);
 plt.scatter(t_sparse,Y_variance)
-

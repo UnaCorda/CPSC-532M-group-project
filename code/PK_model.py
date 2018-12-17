@@ -2,7 +2,7 @@
 """
 Created on Thu Oct 11 17:42:10 2018
 
-@author: hasee
+@author: ych324
 """
 
 import numpy as np
@@ -26,7 +26,7 @@ class IV_onecom_class:
         self.start_point = start_point
         self.c0 = c0
     def predict(self):
-        if self.t1 < 0:
+        if self.t1.any() < 0:
             return 0
         else:
             return IV_onecom(self.k,self.t1,self.c0)
@@ -39,11 +39,15 @@ class PO_onecom_class:
         self.start_point = start_point
 
     def predict(self):
-        if self.t1 < 0:
+        if self.t1[0] < 0:
             return 0
         else:
-            return  PO_onecom(self.ka,self.k,self.t1)        
-        
+            return  PO_onecom(self.ka,self.k,self.t1)
+    def predict(self):
+        if self.t1[0] < 0:
+            return 0
+        else:
+            return  PO_onecom(self.ka,self.k,self.t1)          
 
 
 
@@ -56,10 +60,8 @@ def IV_multidose(k,t,tau,c1,c0=1):
                 model.append(IV_onecom_class(k,t0,0,c1))
             else:
                 model.append(IV_onecom_class(k,t0,tau*i,c0))
-                
         result_list = list(map(lambda x : x.predict(),model))
         return np.sum(result_list)
-        
     out=list(map(single_predict,t))
     #result_list = list(map(lambda x : x.predict(),model))
     return out
@@ -73,10 +75,8 @@ def PO_multidose(ka,k,t,tau):
                 model.append(PO_onecom_class(ka,k,t0,0))
             else:
                 model.append(PO_onecom_class(ka,k,t0,tau*i))
-                
         result_list = list(map(lambda x : x.predict(),model))
         return np.sum(result_list)
-        
     out=list(map(single_predict,t))
     #result_list = list(map(lambda x : x.predict(),model))
     return out
@@ -89,10 +89,8 @@ def PO_multidose(ka,k,t,tau):
                 model.append(PO_onecom_class(ka,k,t0,0))
             else:
                 model.append(PO_onecom_class(ka,k,t0,tau*i))
-                
         result_list = list(map(lambda x : x.predict(),model))
         return np.sum(result_list)
-        
     out=list(map(single_predict,t))
     #result_list = list(map(lambda x : x.predict(),model))
     return out
@@ -101,7 +99,14 @@ def PO_onedose(ka,k,t):
     def single_predict(t0):
         result=PO_onecom_class(ka,k,t0,0)
         return result.predict()
-        
+    out=list(map(single_predict,t))
+    #result_list = list(map(lambda x : x.predict(),model))
+    return out
+
+def PO_onedose_fitting(ka,k,t,t0):
+    def single_predict(tx):
+        result=PO_onecom_class(ka,k,tx,t0)
+        return result.predict()
     out=list(map(single_predict,t))
     #result_list = list(map(lambda x : x.predict(),model))
     return out

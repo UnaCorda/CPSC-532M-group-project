@@ -18,15 +18,6 @@ from numpy.linalg import norm
 import sklearn.cluster
 
 #load DATA
-#x=pandas.read_csv("..\data\Po_multidose.csv")
-#X = np.array(x)
-
-sample_indice = 11800
-tt = np.arange(0,48,0.1)
-t_sparse = np.arange(0,48,1)
-t_indice = t_sparse*10
-Y=X[sample_indice,t_indice]
-Y_variance = Y*(1+np.random.normal(size=Y.size)/50)
-plt.scatter(t_sparse,Y);
-plt.scatter(t_sparse,Y_variance)
-
+x=pandas.read_csv("E:\hasee\OneDrive - University of Kentucky\study\courses\Final Paper\CPSC-532M-project\data\Po_multidose.csv")
+X = np.array(x)
+plt.scatter(t_sparse,X[450,t_indice]);plt.scatter(t_sparse,X[451,t_indice]);plt.scatter(t_sparse,X[452,t_indice]);plt.scatter(tt,X[2253]);

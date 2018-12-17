@@ -40,4 +40,4 @@ Y=gp.predict(tt_processed)
 plt.plot(tt,Y);plt.plot(t_sparse,X1[451,t_sparse*10]);plt.plot(tt,X1[451])
 plt.plot(tt,Y);plt.scatter(t_sparse,X1[451,t_sparse*10]);plt.plot(tt,X1[451])
 
-
+y = np.random.normal(size=8)/10+X1[451,t_sparse*10]

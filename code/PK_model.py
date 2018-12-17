@@ -51,7 +51,7 @@ class PO_onecom_class:
 
 
 
-def IV_multidose(k,t,tau,c1,c0=1):
+def IV_multidose(k,t,tau,c1= 1,c0=1):
     
     def single_predict(t0):
         model=[]

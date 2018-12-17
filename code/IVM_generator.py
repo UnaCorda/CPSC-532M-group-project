@@ -40,7 +40,7 @@ np.savetxt("IVM_para.csv",combined_T,delimiter=",")
 
 test = np.random.rand(10,2)
 test[:,1]  = test[:,1]*24
-out = np.array(list(p.map(fun,combined_T)))
+out = np.array(list(p.map(fun,test)))
 
 np.savetxt("IVM_t.csv", out, delimiter=",")
-np.savetxt("IVM_para_t.csv",combined_T,delimiter=",")
+np.savetxt("IVM_para_t.csv",test,delimiter=",")

@@ -40,9 +40,9 @@ class KNN:
     def __init__(self,n_class):
         self.model = sklearn.neighbors.KNeighborsClassifier(n_class)
         self.model_dic={}
-        self.DataList = np.array(["Po_multidose.csv","Po_onedose.csv"])
+        self.DataList = np.array(["Po_multidose.csv","IVM.csv","IV_onedose.csv","Po_multidose.csv"])
         #self.DataList = np.array(["IV_onedose.csv","Po_multidose.csv"])
-        self.ParaList = np.array(["PO_multidose_para.csv","PO_onedose_para.csv"])
+        self.ParaList = np.array(["PO_multidose_para.csv","IVM_para.csv","IV_onedose.csv","PO_multidose_para.csv"])
         #self.ParaList = np.array(["IV_onedose_para.csv","PO_multidose_para.csv"])
         self.kernal = RBF(length_scale= 1, length_scale_bounds=(1e-1, 1e+2))
         self.gp = GaussianProcessRegressor(kernel=self.kernal ,n_restarts_optimizer=12)
@@ -66,18 +66,22 @@ class KNN:
             X=np.array(x)
             if modeltype == 0:
                 X_all = np.array(x)
+                Y_all=np.ones(X.shape[0])*modeltype
             else:
                 X_all=np.vstack((X_all,X))
+                Y_all = np.append(Y_all,np.ones(X.shape[0])*modeltype)
+                
+            self.X_all = X_all
             self.Y_all = np.append(Y_all,np.ones(X.shape[0])*modeltype)
-            
-            modeltype+=1
+            modeltype=modeltype+1
+            self.modeltype = modeltype
             """
         for j in self.ParaList:
             y = pandas.read_csv(os.path.join('..','data',j))
             np.append(Y_all,y)
             """
         Y_label = np.arange(X_all.shape[0])
-        
+            
         self.model.fit(X_all,Y_label)
         
     def predict(self,Input):
@@ -89,7 +93,7 @@ class KNN:
         self.Y = np.array(y)
         size0 = (pandas.read_csv(os.path.join('..','data',self.ParaList[0]))).shape[0]
         size1 = (pandas.read_csv(os.path.join('..','data',self.ParaList[1]))).shape[0]
-        #size2 = (pandas.read_csv(os.path.join('..','data',self.ParaList[2]))).shape[0]
+        size2 = (pandas.read_csv(os.path.join('..','data',self.ParaList[2]))).shape[0]
         #size3 = (pandas.read_csv(os.path.join('..','data',self.ParaList[3]))).shape[0]
         if out1 == 0:
             para = self.Y[result_list[0]]

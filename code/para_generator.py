@@ -31,8 +31,9 @@ L=np.matrix.flatten(np.repeat([k],k.size,axis=0))
 combined_array=np.array([K]+[L])
 combined_array_T=combined_array.T
 p=multiprocessing.Pool(8)
-out=np.array(list(p.map(fu,multi_combanation_T)))
-#out=np.array(list(map(lambda x: PO_onedose(x[0],x[1],t),combined_array_T)))
+out=np.array(list(p.map(fu,combined_array_T)))
+#out=np.array(list(map(lambda x: PO_onedose(x[0],x[1],tt),combined_array_T)))
+np.savetxt("..\data\PO_onedose.csv", out, delimiter=",")
 #Ka serials
 
 #for PO multidose
@@ -70,5 +71,4 @@ np.hstack((Y,label.reshape(-1,1)))
 """Using the map function to do tbe paralization"""
 #out=np.array(list(p.map(fun,multi_combanation_T[1:500])))
 
-numpy.savetxt("..\data\PO_multidose_para.csv", out, delimiter=",")
 

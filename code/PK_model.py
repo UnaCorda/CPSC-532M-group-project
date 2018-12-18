@@ -48,7 +48,23 @@ class PO_onecom_class:
             return 0
         else:
             return  PO_onecom(self.ka,self.k,self.t1)          
+class PO_onecom_class_ori:
+    def __init__(self,ka,k,t,start_point):
+        self.ka = ka
+        self.k = k
+        self.t1 = t-start_point
+        self.start_point = start_point
 
+    def predict(self):
+        if self.t1 < 0:
+            return 0
+        else:
+            return  PO_onecom(self.ka,self.k,self.t1)
+    def predict(self):
+        if self.t1 < 0:
+            return 0
+        else:
+            return  PO_onecom(self.ka,self.k,self.t1)  
 
 
 def IV_multidose(k,t,tau,c1= 1,c0=1):
@@ -81,14 +97,14 @@ def PO_multidose(ka,k,t,tau):
     #result_list = list(map(lambda x : x.predict(),model))
     return out
 
-def PO_multidose(ka,k,t,tau):
+def PO_multidose_ori(ka,k,t,tau):
     def single_predict(t0):
         model=[]
         for i in range(int(np.floor(t0/tau)+1)):
             if i ==0:
-                model.append(PO_onecom_class(ka,k,t0,0))
+                model.append(PO_onecom_class_ori(ka,k,t0,0))
             else:
-                model.append(PO_onecom_class(ka,k,t0,tau*i))
+                model.append(PO_onecom_class_ori(ka,k,t0,tau*i))
         result_list = list(map(lambda x : x.predict(),model))
         return np.sum(result_list)
     out=list(map(single_predict,t))

@@ -58,12 +58,22 @@ def fitting_OLS_splitpoints(Input):
         for j in range(i):
         #for j in range(i):
             if i == 0:
-                model.append(PO_onecom_class(ka=ka_initial,k=k_inital,t=t,start_point=min_points[j]))
+                model.append(PK_model.PO_onecom_class(ka=ka_initial,k=k_inital,t=t,start_point=min_points[j]))
             else:
-                model.append(PO_onecom_class(ka=parameterlist[j][0],k=parameterlist[j][1],t=t,start_point=min_points[j]))
+                model.append(PK_model.PO_onecom_class(ka=parameterlist[j][0],k=parameterlist[j][1],t=t,start_point=min_points[j]))
                 
         parameter = fitting_OLS(Partial_points,model_array=model).x
         parameterlist.append(parameter)
+
+    fig, ax = plt.subplots()
+    ka = np.array(parameterlist)[:,0]
+    k = np.array(parameterlist)[:,1]
+    ax.plot(min_points[0:-1],ka,label="ka")
+    ax.plot(min_points[0:-1],k,label="k")
+    legend = ax.legend(loc='center right', shadow=True, fontsize='x-large')
+    plt.title('Po_multiDose-Oxycodo-PK Coefficient', fontdict=None)
+    plt.xlabel('Time(h)')
+    plt.ylabel('h-1')
     return parameterlist
         
 

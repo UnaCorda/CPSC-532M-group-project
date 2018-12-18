@@ -1,0 +1,31 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.12.17)  17 DEC 2018 02:00
+entering extended mode
+**./temp1.tex
+(temp1.tex
+LaTeX2e <2018-04-01> patch level 5
+(E:\MikTex\tex\latex\base\article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(E:\MikTex\tex\latex\base\size10.clo
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+) (E:\MikTex\tex\latex\base\inputenc.sty
+Package: inputenc 2018/04/06 v1.3b Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+)
+(E:\MikTex\tex\generic\babel\babel.sty
+Package: babel 2018/06/05 3.22 The Babel package
+ (E:\MikTex\tex\generic\babel\switch.def
+File: switch.def 2018/06/05 3.22 Babel switching mechanism
+)

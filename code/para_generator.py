@@ -34,7 +34,15 @@ p=multiprocessing.Pool(8)
 out=np.array(list(p.map(fu,combined_array_T)))
 #out=np.array(list(map(lambda x: PO_onedose(x[0],x[1],tt),combined_array_T)))
 np.savetxt("..\data\PO_onedose.csv", out, delimiter=",")
-#Ka serials
+#IV_onedose 
+def IV(x):
+    return PK_model.IV_onecom(x,tt)
+k1=np.arange(0.010,0.15,0.01)
+k2=np.arange(0.10,5.1,0.1)
+k=np.append(k1,k2)
+out=np.array(list(map(IV,k)))
+np.savetxt("..\data\IV_onedose.csv", out, delimiter=",")
+np.savetxt("..\data\IV_onedose_para.csv", k.reshape(-1,1), delimiter=",")
 
 #for PO multidose
 def fun(x):

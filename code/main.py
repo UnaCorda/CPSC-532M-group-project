@@ -13,3 +13,8 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy.linalg import norm
+
+
+plt.plot(t,PO_multidose_ori(0.6,0.15,t,4))
+Input = np.vstack((t,PO_multidose_ori(0.6,0.15,t,4)))
+

@@ -127,6 +127,13 @@ def PO_onedose_fitting(ka,k,t,t0):
     #result_list = list(map(lambda x : x.predict(),model))
     return out
 
+def IV_onedose(k,t):
+    def single_predict(t0):
+        result=IV_onecom_class(k,t0,0,1)
+        return result.predict()
+    out=list(map(single_predict,t))
+    #result_list = list(map(lambda x : x.predict(),model))
+    return out
 #optimize.minimize(fun,([1,2,1]))
 """def fun(A):
     a=A[0]

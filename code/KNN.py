@@ -16,6 +16,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy.linalg import norm
 import sklearn.cluster
+import RBF_rewrite
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.gaussian_process.kernels import Matern, RBF
 """
 #load DATA
 x=pandas.read_csv("..\data\Po_multidose.csv")
@@ -33,11 +36,24 @@ plt.scatter(t_sparse,Y);
 plt.scatter(t_sparse,Y_variance)
 """
 class KNN:
+
     def __init__(self,n_class):
         self.model = sklearn.neighbors.KNeighborsClassifier(n_class)
         self.model_dic={}
         self.DataList = np.array(["Po_multidose.csv"])
         self.ParaList = np.array(["PO_multidose_para.csv"])
+        self.kernal = RBF(length_scale= 1, length_scale_bounds=(1e-1, 1e+2))
+        self.gp = GaussianProcessRegressor(kernel=self.kernal ,n_restarts_optimizer=12)
+        
+    def RBF_interpolation(self,Input_points):
+        Input_points = Input_points.T
+        test_points = np.arange(0,48,0.1)
+        t_input=Input_points[:,0][:,np.newaxis] 
+        y_input=Input_points[:,1]
+        self.gp.fit(t_input,y_input)
+        out = self.gp.predict(test_points[:,np.newaxis])
+        return np.array([out])
+        
     def fit(self):
         """Read in the Data"""
         X_all = np.array([])
@@ -62,7 +78,8 @@ class KNN:
         
         self.model.fit(X_all,Y_label)
         
-    def predict(self,x):
+    def predict(self,Input):
+        x = self.RBF_interpolation(Input)
         result_list = self.model.predict(x)
         out1 = self.Y_all[result_list]
         indice = np.int(out1[0])
@@ -86,3 +103,9 @@ class KNN:
     def return_para():
         return NotImplemented
         
+
+
+    
+    
+    
+    

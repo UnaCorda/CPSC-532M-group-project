@@ -37,7 +37,7 @@ def fitting_OLS(Input_points,model_array):
         #print(OLS)
         return OLS
         
-    return optimize.minimize(object_fun,[0.5,1],method="BFGS")
+    return optimize.minimize(object_fun,[0.5,1])
     
 
 def fitting_OLS_splitpoints(Input):
@@ -48,7 +48,7 @@ def fitting_OLS_splitpoints(Input):
     k_inital = 1
     parameterlist = []
     for i in range(min_points.size-1):
-    #for i in range(2):
+    #for i in range(5):
         lower_bound = min_points[i]
         upper_bound = min_points[i+1]
         Partial_indices = np.intersect1d(np.where(Input[:,0]>=lower_bound)[0],np.where(Input[:,0]<=upper_bound)[0])

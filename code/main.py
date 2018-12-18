@@ -14,7 +14,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy.linalg import norm
 
+t = np.arange(0,12,1)
+plt.plot(t,PO_multidose_ori(1.2,0.15,t,4))
 
-plt.plot(t,PO_multidose_ori(0.6,0.15,t,4))
-Input = np.vstack((t,PO_multidose_ori(0.6,0.15,t,4)))
+Y = PO_multidose_ori(1.2,0.15,t,4)
+Y_variance = Y*(1+np.random.normal(size=t.shape[0])/50)
+Input = np.vstack((t,Y_variance))
 

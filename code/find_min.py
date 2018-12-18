@@ -19,10 +19,10 @@ def objfun_RBF(x,model):
 
 #k = RBF(length_scale= 1, length_scale_bounds=(1e-1, 1e+2))
 #Input points are nX2 long matrix
-def return_intervals(Input_points,kernal=None,seeds_int=0.1,eps=1,min_samples=20,objfun=objfun_RBF,):
-    cluster_model = sklearn.cluster.DBSCAN(eps=0.001,min_samples=10)
-    kernal = RBF(length_scale= 1, length_scale_bounds=(1e-1, 1e+2))
-    test_point = np.arange(1,48,seeds_int)
+def return_intervals(Input_points,kernal=None,seeds_int=0.1,eps=0.01,min_samples=20,objfun=objfun_RBF,):
+    cluster_model = sklearn.cluster.DBSCAN(eps=eps,min_samples=min_samples)
+    kernal = RBF(length_scale= 1, length_scale_bounds=(1e-0, 1e+2))
+    test_point = np.arange(1,Input_points.shape[0],seeds_int)
     gp = GaussianProcessRegressor(kernel=kernal ,n_restarts_optimizer=12)
     t_input=Input_points[:,0][:,np.newaxis]
     y_input=Input_points[:,1]
@@ -41,11 +41,14 @@ def return_intervals(Input_points,kernal=None,seeds_int=0.1,eps=1,min_samples=20
     group = np.unique(matrix_clean[:,0])
     #Calculate the mean of the minpoints
     mean_minpoints=np.array(list(map(lambda x : matrix_clean[matrix_clean[:,0]==x][:,1].mean(),group)))
-    mean_minpoints_include_zero = np.append([0],mean_minpoints)
     mean_minpoints.sort()
-    #plt.plot(Input_points[:,0],gp.predict(Input_points[:,0][:,np.newaxis]))
-    #plt.scatter(Input_points[:,0],Input_points[:,1])
-    plt.scatter(mean_minpoints_include_zero,gp.predict(mean_minpoints_include_zero[:,np.newaxis]),c='red')
+    mean_minpoints_include_zero = np.unique(np.append([0],mean_minpoints))
+    
+    fig, ax = plt.subplots()
+    
+    ax.plt.plot(np.arange(0,Input_points.shape[0],0.1),gp.predict(np.arange(0,Input_points.shape[0],0.1)[:,np.newaxis]),c='black',label='Inline label')
+    ax.plt.scatter(Input_points[:,0],Input_points[:,1],c='blue')
+    ax.plt.scatter(mean_minpoints_include_zero,gp.predict(mean_minpoints_include_zero[:,np.newaxis]),c='red')
     
     return mean_minpoints_include_zero[mean_minpoints_include_zero>=0]
 

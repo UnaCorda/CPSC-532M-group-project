@@ -1,0 +1,27 @@
+% example .bib file from
+% http://www.math.duke.edu/computing/tex/templates/database.bib
+
+@article{LagTime,
+    author = {Nadhamuni G.NerellaLawrence H.BlockPatrick K.Noonan},
+    title = "The Impact of Lag Time on the Estimation of Pharmacokinetic Parameters. I. One-Compartment Open Model",
+    publisher = "Kluwer Academic Publishers-Plenum Publishers",
+    year = "1993",
+    DOI="https://doi.org/10.1023/A:1018970924508",
+    keywords  = " Lag.Time"
+}
+
+@incollection{gabrielsson2012non,
+  title={Non-compartmental analysis},
+  author={Gabrielsson, Johan and Weiner, Daniel},
+  booktitle={Computational toxicology},
+  pages={377--389},
+  year={2012},
+  publisher={Springer}
+}
+
+@article{bauer2011chapter,
+  title={Chapter 8: Clinical pharmacokinetics and pharmacodynamics},
+  author={Bauer, LA},
+  journal={Pharmacotherapy: A Pathophysiologic Approach, McGraw-Hill, New York},
+  year={2011}
+}

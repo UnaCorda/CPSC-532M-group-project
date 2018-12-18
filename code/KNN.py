@@ -40,9 +40,9 @@ class KNN:
     def __init__(self,n_class):
         self.model = sklearn.neighbors.KNeighborsClassifier(n_class)
         self.model_dic={}
-        self.DataList = np.array(["Po_multidose.csv"])
+        self.DataList = np.array(["Po_multidose.csv","Po_onedose.csv"])
         #self.DataList = np.array(["IV_onedose.csv","Po_multidose.csv"])
-        self.ParaList = np.array(["PO_multidose_para.csv"])
+        self.ParaList = np.array(["PO_multidose_para.csv","PO_onedose_para.csv"])
         #self.ParaList = np.array(["IV_onedose_para.csv","PO_multidose_para.csv"])
         self.kernal = RBF(length_scale= 1, length_scale_bounds=(1e-1, 1e+2))
         self.gp = GaussianProcessRegressor(kernel=self.kernal ,n_restarts_optimizer=12)
@@ -88,7 +88,7 @@ class KNN:
         y = pandas.read_csv(os.path.join('..','data',self.ParaList[indice]))
         self.Y = np.array(y)
         size0 = (pandas.read_csv(os.path.join('..','data',self.ParaList[0]))).shape[0]
-        #size1 = (pandas.read_csv(os.path.join('..','data',self.ParaList[1]))).shape[0]
+        size1 = (pandas.read_csv(os.path.join('..','data',self.ParaList[1]))).shape[0]
         #size2 = (pandas.read_csv(os.path.join('..','data',self.ParaList[2]))).shape[0]
         #size3 = (pandas.read_csv(os.path.join('..','data',self.ParaList[3]))).shape[0]
         if out1 == 0:

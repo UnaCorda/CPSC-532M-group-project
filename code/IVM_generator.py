@@ -9,6 +9,11 @@ def fun(x):
     t = np.arange(0,48,0.1)
     return PK_model.IV_multidose(x[0],t,x[1],x[0])
 
+
+def fun1(x):
+    t = np.arange(0,48,1)
+    return PK_model.IV_multidose(x[0],t,x[1],x[0])
+
 #tt=np.arange(0,48,0.1)
 #t_sparse = np.arange(0,48,4)
 #t_indice = np.arange(0,480,40)
@@ -40,7 +45,7 @@ np.savetxt("IVM_para.csv",combined_T,delimiter=",")
 
 test = np.random.rand(10,2)
 test[:,1]  = test[:,1]*24
-out = np.array(list(p.map(fun,test)))
+out = np.array(list(p.map(fun1,test)))
 
 np.savetxt("IVM_t.csv", out, delimiter=",")
 np.savetxt("IVM_para_t.csv",test,delimiter=",")

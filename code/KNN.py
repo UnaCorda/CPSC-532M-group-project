@@ -86,7 +86,9 @@ class KNN:
         
     def predict(self,Input):
         x = self.RBF_interpolation(Input)
+        
         result_list = self.model.predict(x)
+        self.result_list = result_list
         out1 = self.Y_all[result_list]
         indice = np.int(out1[0])
         y = pandas.read_csv(os.path.join('..','data',self.ParaList[indice]))

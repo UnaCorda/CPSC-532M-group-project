@@ -19,9 +19,9 @@ def objfun_RBF(x,model):
 
 #k = RBF(length_scale= 1, length_scale_bounds=(1e-1, 1e+2))
 #Input points are nX2 long matrix
-def return_intervals(Input_points,kernal=None,seeds_int=0.1,eps=0.01,min_samples=20,objfun=objfun_RBF,):
+def return_intervals(Input_points,kernal=None,seeds_int=0.1,eps=0.5,min_samples=30,objfun=objfun_RBF,):
     cluster_model = sklearn.cluster.DBSCAN(eps=eps,min_samples=min_samples)
-    kernal = RBF(length_scale= 1, length_scale_bounds=(1e+0, 1e+2))
+    kernal = RBF(length_scale= 1, length_scale_bounds=(1e+6, 1e+2))
     test_point = np.arange(1,Input_points.shape[0],seeds_int)
     gp = GaussianProcessRegressor(kernel=kernal ,n_restarts_optimizer=12)
     t_input=Input_points[:,0][:,np.newaxis]

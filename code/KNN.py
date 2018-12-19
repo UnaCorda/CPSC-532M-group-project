@@ -42,20 +42,20 @@ class KNN:
         self.model_dic={}
         self.DataList = np.array(["Po_multidose.csv","IVM.csv","Po_onedose.csv","IV_onedose.csv"])
         #self.DataList = np.array(["IV_onedose.csv","Po_multidose.csv"])
-        self.ParaList = np.array(["PO_multidose_para.csv","IVM_para.csv","PO_onedose_para.csv","IV_onedose_para.csv"])
+        self.ParaList = np.array(["Po_multidose_para.csv","IVM_para.csv","PO_onedose_para.csv","IV_onedose_para.csv"])
         #self.ParaList = np.array(["IV_onedose_para.csv","PO_multidose_para.csv"])
         self.kernal = RBF(length_scale= 1, length_scale_bounds=(1e-1, 1e+2))
         self.gp = GaussianProcessRegressor(kernel=self.kernal ,n_restarts_optimizer=12)
-        
+
     def RBF_interpolation(self,Input_points):
         Input_points = Input_points.T
         test_points = np.arange(0,48,0.1)
-        t_input=Input_points[:,0][:,np.newaxis] 
+        t_input=Input_points[:,0][:,np.newaxis]
         y_input=Input_points[:,1]
         self.gp.fit(t_input,y_input)
         out = self.gp.predict(test_points[:,np.newaxis])
         return np.array([out])
-        
+
     def fit(self):
         """Read in the Data"""
         X_all = np.array([])
@@ -70,7 +70,7 @@ class KNN:
             else:
                 X_all=np.vstack((X_all,X))
                 Y_all = np.append(Y_all,np.ones(X.shape[0])*modeltype)
-                
+
             self.X_all = X_all
             self.Y_all = np.append(Y_all,np.ones(X.shape[0])*modeltype)
             modeltype=modeltype+1
@@ -81,12 +81,12 @@ class KNN:
             np.append(Y_all,y)
             """
         Y_label = np.arange(X_all.shape[0])
-            
+
         self.model.fit(X_all,Y_label)
-        
+
     def predict(self,Input):
         x = self.RBF_interpolation(Input)
-        
+
         result_list = self.model.predict(x)
         self.result_list = result_list
         out1 = self.Y_all[result_list]
@@ -109,15 +109,8 @@ class KNN:
             para = self.Y[result_list[0]-size0-size1]
         elif out1 ==3:
             para = self.Y[result_list[0]-size0-size1-size2]
-            
+
         return result_list,out1,para
-    
+
     def return_para():
         return NotImplemented
-        
-
-
-    
-    
-    
-    

@@ -6,7 +6,7 @@ import pickle
 import gzip
 import argparse
 import time
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import numpy as np
 from numpy.linalg import norm
 import numpy as np
@@ -18,12 +18,10 @@ def sparsedata(X,y):
     gp.fit(X,y)
 
     #tt_processed = tt[:,np.newaxis]
-    t_sparse = np.arange(0,48,6)    
+    t_sparse = np.arange(0,48,6)
     t_sparse_processed = t_sparse[:,np.newaxis]
 
     y_ = gp.perdict(t_sparse_processed)
     return y_
 
 #load DATA
-
-

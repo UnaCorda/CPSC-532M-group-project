@@ -52,7 +52,8 @@ def return_intervals(Input_points,kernal=None,seeds_int=0.1,eps=0.01,min_samples
     mean_minpoints.sort()
     mean_minpoints_include_zero = np.unique(np.append([0],mean_minpoints))
     
-    fig, ax = plt.subplots()
+    fig = plt.figure(figsize=(12, 2.5))
+    ax = fig.add_subplot(111)
     
     ax.plot(np.arange(0,Input_points.shape[0],0.1),gp.predict(np.arange(0,Input_points.shape[0],0.1)[:,np.newaxis]),c='black',label='RBF Interpolation')
     ax.scatter(Input_points[:,0],Input_points[:,1],c='blue',label='Input Data Point')

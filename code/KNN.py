@@ -21,7 +21,7 @@ from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import Matern, RBF
 """
 #load DATA
-x=pandas.read_csv("..\data\Po_multidose.csv")
+x=pandas.read_csv("..\data\IV_onedose.csv")
 X = np.array(x)
 
 
@@ -65,7 +65,7 @@ class KNN:
             x=pandas.read_csv(os.path.join('..','data',i))
             X=np.array(x)
             if modeltype == 0:
-                X_all = np.array(x)
+                X_all = X
                 Y_all=np.ones(X.shape[0])*modeltype
             else:
                 X_all=np.vstack((X_all,X))
@@ -93,18 +93,22 @@ class KNN:
         indice = np.int(out1[0])
         y = pandas.read_csv(os.path.join('..','data',self.ParaList[indice]))
         self.Y = np.array(y)
-        size0 = (pandas.read_csv(os.path.join('..','data',self.ParaList[0]))).shape[0]
-        size1 = (pandas.read_csv(os.path.join('..','data',self.ParaList[1]))).shape[0]
-        size2 = (pandas.read_csv(os.path.join('..','data',self.ParaList[2]))).shape[0]
-        size3 = (pandas.read_csv(os.path.join('..','data',self.ParaList[3]))).shape[0]
+        size0 = np.array(pandas.read_csv(os.path.join('..','data',self.ParaList[0]))).shape[0]
+        size1 = np.array(pandas.read_csv(os.path.join('..','data',self.ParaList[1]))).shape[0]
+        size2 = np.array(pandas.read_csv(os.path.join('..','data',self.ParaList[2]))).shape[0]
+        size3 = np.array(pandas.read_csv(os.path.join('..','data',self.ParaList[3]))).shape[0]
+        self.size0 = size0
+        self.size1 = size1
+        self.size2 = size2
+        self.size3 = size3
         if out1 == 0:
             para = self.Y[result_list[0]]
         elif out1 == 1:
             para = self.Y[result_list[0]-size0]
         elif out1 ==2:
-            para = self.Y[result_list[0]-size1]
+            para = self.Y[result_list[0]-size0-size1]
         elif out1 ==3:
-            para = self.Y[result_list[0]-size2]
+            para = self.Y[result_list[0]-size0-size1-size2]
             
         return result_list,out1,para
     

@@ -25,6 +25,6 @@ Input = np.vstack((t,Y_variance))
 t = np.arange(0,48,1)
 plt.plot(t,PK_model.IV_onedose(2,t))
 
-Y = PK_model.PK_model.IV_onedose(2,t)
+Y =PK_model.IV_onedose(2,t)
 Y_variance = Y*(1+np.random.normal(size=t.shape[0])/50)
 Input = np.vstack((t,Y_variance))
